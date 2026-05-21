@@ -1,38 +1,24 @@
 <?php
 
 return [
-
     /*
-    |--------------------------------------------------------------------------
-    | Cross-Origin Resource Sharing (CORS) Configuration
-    |--------------------------------------------------------------------------
-    |
-    | Here you may configure your settings for cross-origin resource sharing
-    | or "CORS". This determines what cross-origin operations may execute
-    | in web browsers. You are free to adjust these settings as needed.
-    |
-    | To learn more: https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS
-    |
+    跨源资源共享（CORS）配置
     */
-
-    'paths' => ['api/*', 'sanctum/csrf-cookie'],
-
+    // 允许的请求路径（* 匹配所有路由）
+    'paths' => ['*'],
+    // 允许的请求方法
     'allowed_methods' => ['*'],
-
-    'allowed_origins' => [
-        'http://localhost:5173',  // 本地开发
-        'https://vue-frontend-production-3387.up.railway.app/',  // 你的前端域名
-        '*',
-    ],
-
+    // 允许的域名（* 允许所有域名）
+    'allowed_origins' => ['*'],
+    // 允许的域名（* 允许所有域名）
     'allowed_origins_patterns' => [],
-
+    // 允许的请求头
     'allowed_headers' => ['*'],
-
+    // 暴露的请求头
     'exposed_headers' => [],
-
+    // 缓存时间
     'max_age' => 0,
-
-    'supports_credentials' => true,
+    // 允许携带cookie
+    'supports_credentials' => false,
 
 ];
