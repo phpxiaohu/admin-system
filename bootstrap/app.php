@@ -20,6 +20,12 @@ return Application::configure(basePath: dirname(__DIR__))
             \Illuminate\Http\Middleware\HandleCors::class,
         ]);
 
+        // 将登录、注册路由排除 CSRF 验证
+        $middleware->validateCsrfTokens(except: [
+            'login',
+            'register',
+        ]);
+
         $middleware->redirectGuestsTo(function (Request $request): ?string {
             if ($request->is('api/*')) {
                 return null;
