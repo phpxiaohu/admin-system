@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Route;
 
 // 公开路由
 Route::post('/login', [AuthController::class, 'login']);
+Route::post('/register', [AuthController::class, 'register']);
 
 // 需要认证的路由
 Route::middleware('auth:sanctum')->group(function (): void {
