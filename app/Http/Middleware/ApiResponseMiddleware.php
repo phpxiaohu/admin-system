@@ -14,7 +14,7 @@ class ApiResponseMiddleware {
     public function handle(Request $request, Closure $next): Response {
         $response = $next($request);
 
-        if (! $request->is('api/*') || $response->getStatusCode() === 204) {
+        if ($response->getStatusCode() === 204) {
             return $response;
         }
 

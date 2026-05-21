@@ -26,24 +26,12 @@ return Application::configure(basePath: dirname(__DIR__))
             'register',
         ]);
 
-        $middleware->redirectGuestsTo(function (Request $request): ?string {
-            if ($request->is('api/*')) {
-                return null;
-            }
-
-            return '/';
-        });
-
         $middleware->api(append: [
             \App\Http\Middleware\ApiResponseMiddleware::class,
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         $exceptions->render(function (ValidationException $exception, Request $request) {
-            if (! $request->is('api/*')) {
-                return null;
-            }
-
             return response()->json([
                 'code' => 422,
                 'message' => '参数验证失败',
@@ -54,10 +42,6 @@ return Application::configure(basePath: dirname(__DIR__))
         });
 
         $exceptions->render(function (AuthenticationException $exception, Request $request) {
-            if (! $request->is('api/*')) {
-                return null;
-            }
-
             return response()->json([
                 'code' => 401,
                 'message' => '未授权访问',
@@ -66,10 +50,6 @@ return Application::configure(basePath: dirname(__DIR__))
         });
 
         $exceptions->render(function (\Throwable $exception, Request $request) {
-            if (! $request->is('api/*')) {
-                return null;
-            }
-
             $status = $exception instanceof HttpExceptionInterface ? $exception->getStatusCode() : 500;
             $message = $status >= 500 ? '服务器内部错误' : ($exception->getMessage() ?: '请求失败');
 
