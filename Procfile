@@ -1,1 +1,1 @@
-web: php artisan migrate --force && heroku-php-apache2 public/
+web: php artisan migrate --force && php -S 0.0.0.0:$PORT -t public/
