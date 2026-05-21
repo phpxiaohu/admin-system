@@ -20,8 +20,8 @@ return [
     'allowed_methods' => ['*'],
 
     'allowed_origins' => [
-        'vue-frontend-production-3387.up.railway.app',  // 你的前端域名
-        env('FRONTEND_URL', 'http://localhost:3000'),  // 本地开发
+        'http://localhost:5173',  // 本地开发
+        'https://vue-frontend-production-3387.up.railway.app/',  // 你的前端域名
         '*',
     ],
 
