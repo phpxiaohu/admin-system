@@ -1,8 +1,8 @@
 <?php
 
-use App\Http\Controllers\Api\AuthController;
-use App\Http\Controllers\Api\CartController;
-use App\Http\Controllers\Api\ProductController;
+use App\Http\Controllers\Auth\AuthController;
+use App\Http\Controllers\Cart\CartController;
+use App\Http\Controllers\Product\ProductController;
 use Illuminate\Support\Facades\Route;
 
 // 公开路由

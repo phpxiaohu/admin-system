@@ -19,7 +19,10 @@ return [
 
     'allowed_methods' => ['*'],
 
-    'allowed_origins' => ['*'],
+    'allowed_origins' => [
+        'vue-frontend-production-3387.up.railway.app',  // 你的前端域名
+        'localhost:5173',  // 本地开发
+    ],
 
     'allowed_origins_patterns' => [],
 
