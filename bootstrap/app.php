@@ -20,10 +20,9 @@ return Application::configure(basePath: dirname(__DIR__))
             \Illuminate\Http\Middleware\HandleCors::class,
         ]);
 
-        // 将登录、注册路由排除 CSRF 验证
+        // 将 API 路由排除 CSRF 验证（使用 Sanctum token 认证）
         $middleware->validateCsrfTokens(except: [
-            'vite/login',
-            'vite/register',
+            'vite/*',
         ]);
 
         $middleware->api(append: [
