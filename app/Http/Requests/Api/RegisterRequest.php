@@ -24,7 +24,8 @@ class RegisterRequest extends FormRequest
         return [
             'username' => 'required|string|max:255|unique:users',
             'email' => 'required|string|email|max:255|unique:users',
-            'password' => 'required|string|min:6|confirmed',
+            'password' => 'required|string|min:6',
+            'confirmed' => 'required|string|same:password',
         ];
     }
 
@@ -43,7 +44,8 @@ class RegisterRequest extends FormRequest
             'email.unique' => '邮箱已被注册',
             'password.required' => '密码不能为空',
             'password.min' => '密码至少需要6个字符',
-            'password.confirmed' => '两次密码输入不一致',
+            'confirmed.required' => '确认密码不能为空',
+            'confirmed.same' => '两次密码输入不一致',
         ];
     }
 }

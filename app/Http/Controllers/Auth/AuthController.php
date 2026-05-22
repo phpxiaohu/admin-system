@@ -63,7 +63,7 @@ class AuthController extends Controller
                 'expiresAt' => $expiresAt->timestamp,
                 'user' => $user,
             ],
-        ], 201);
+        ]);
     }
 
     public function getUser(Request $request): JsonResponse
