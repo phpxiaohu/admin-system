@@ -7,13 +7,11 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Default Database Connection Name
+    | 默认数据库连接名称
     |--------------------------------------------------------------------------
     |
-    | Here you may specify which of the database connections below you wish
-    | to use as your default connection for database operations. This is
-    | the connection which will be utilized unless another connection
-    | is explicitly specified when you execute a query / statement.
+    | 在这里你可以指定你希望使用哪个数据库连接作为默认连接进行数据库操作。
+    | 除非在执行查询/语句时明确指定其他连接，否则将使用此连接。
     |
     */
 
@@ -21,12 +19,12 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Database Connections
+    | 数据库连接
     |--------------------------------------------------------------------------
     |
-    | Below are all of the database connections defined for your application.
-    | An example configuration is provided for each database system which
-    | is supported by Laravel. You're free to add / remove connections.
+    | 以下是为你的应用程序定义的所有数据库连接。
+    | 为每个 Laravel 支持的数据库系统提供了示例配置。
+    | 你可以自由添加/删除连接。
     |
     */
 
@@ -59,8 +57,13 @@ return [
             'prefix_indexes' => true,
             'strict' => true,
             'engine' => null,
+            // 连接超时配置（针对 Vercel + PlanetScale 优化）
+            'timeout' => 5,
             'options' => extension_loaded('pdo_mysql') ? array_filter([
-                (PHP_VERSION_ID >= 80500 ? Mysql::ATTR_SSL_CA : PDO::MYSQL_ATTR_SSL_CA) => env('MYSQL_ATTR_SSL_CA'),
+                (PHP_VERSION_ID >= 80500 ? Mysql::ATTR_SSL_CA : PDO::MYSQL_ATTR_SSL_CA) => env('MYSQL_ATTR_SSL_CA', '/etc/ssl/cert.pem'),
+                // PDO 连接选项
+                PDO::ATTR_TIMEOUT => 5,
+                PDO::ATTR_PERSISTENT => false, // 在无服务器环境中不使用持久连接
             ]) : [],
         ],
 
@@ -118,12 +121,11 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Migration Repository Table
+    | 迁移仓库表
     |--------------------------------------------------------------------------
     |
-    | This table keeps track of all the migrations that have already run for
-    | your application. Using this information, we can determine which of
-    | the migrations on disk haven't actually been run on the database.
+    | 此表跟踪你的应用程序已经运行的所有迁移。
+    | 使用这些信息，我们可以确定磁盘上的哪些迁移实际上尚未在数据库上运行。
     |
     */
 
@@ -134,12 +136,11 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Redis Databases
+    | Redis 数据库
     |--------------------------------------------------------------------------
     |
-    | Redis is an open source, fast, and advanced key-value store that also
-    | provides a richer body of commands than a typical key-value system
-    | such as Memcached. You may define your connection settings here.
+    | Redis 是一个开源、快速且高级的键值存储，它也比典型的键值系统
+    |（如 Memcached）提供更丰富的命令集。你可以在这里定义你的连接设置。
     |
     */
 

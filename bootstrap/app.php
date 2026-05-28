@@ -7,6 +7,7 @@ use Illuminate\Auth\AuthenticationException;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
 use Symfony\Component\HttpKernel\Exception\HttpExceptionInterface;
+use Symfony\Component\HttpKernel\Exception\TooManyRequestsHttpException;
 
 return Application::configure(basePath: dirname(__DIR__))
     ->withRouting(
@@ -56,6 +57,17 @@ return Application::configure(basePath: dirname(__DIR__))
                 'message' => '未授权访问',
                 'data' => null,
             ], 401);
+        });
+        // 限流异常（429）
+        $exceptions->render(function (TooManyRequestsHttpException $exception, Request $request) {
+            $retryAfter = $exception->getHeaders()['Retry-After'] ?? 60;
+
+            return response()->json([
+                'code' => 429,
+                'message' => '请求过于频繁，请稍后再试',
+                'data' => null,
+                'retry_after' => (int) $retryAfter,
+            ], 429, $exception->getHeaders());
         });
         // 其他异常
         $exceptions->render(function (\Throwable $exception, Request $request) {
