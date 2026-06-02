@@ -1,0 +1,25 @@
+# Vercel
+.vercel
+/api
+
+# Laravel
+/vendor
+/node_modules
+/storage/*.key
+.env
+.env.*
+!.env.example
+/public/hot
+/public/storage
+/storage/*.pid
+storage/framework/cache/*
+storage/framework/sessions/*
+storage/framework/views/*
+storage/logs/*
+bootstrap/cache/*
+.idea/
+*.log
+
+# OS
+.DS_Store
+Thumbs.db

@@ -3,6 +3,7 @@
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\Cart\CartController;
 use App\Http\Controllers\Product\ProductController;
+use App\Http\Controllers\Upload\UploadController;
 use Illuminate\Support\Facades\Route;
 
 // 公开路由
@@ -10,7 +11,7 @@ Route::prefix('vite')->group(function (): void {
     // 登录限流：每分钟最多 5 次尝试
     Route::post('/login', [AuthController::class, 'login'])
         ->middleware('throttle:login');
-    
+
     // 注册限流：每分钟最多 3 次
     Route::post('/register', [AuthController::class, 'register'])
         ->middleware('throttle:register');
@@ -41,6 +42,26 @@ Route::prefix('vite')->group(function (): void {
                 ->middleware('throttle:cart'); // 删除购物车商品
             Route::delete('/clear', [CartController::class, 'clear'])
                 ->middleware('throttle:cart.clear');   // 清空购物车
+        });
+
+        // 大文件分片上传路由
+        Route::prefix('upload')->group(function (): void {
+            Route::post('/init', [UploadController::class, 'init'])
+                ->middleware('throttle:api');          // 初始化上传
+            Route::post('/chunk', [UploadController::class, 'uploadChunk'])
+                ->middleware('throttle:api');          // 上传分片
+            Route::post('/merge', [UploadController::class, 'mergeChunks'])
+                ->middleware('throttle:api');          // 合并分片
+            Route::post('/check', [UploadController::class, 'checkChunks'])
+                ->middleware('throttle:api');          // 检查已上传分片
+
+            // 文件管理路由
+            Route::get('/files', [UploadController::class, 'listFiles'])
+                ->middleware('throttle:api');          // 获取文件列表
+            Route::get('/files/{id}', [UploadController::class, 'getFile'])
+                ->middleware('throttle:api');          // 获取单个文件
+            Route::delete('/files/{id}', [UploadController::class, 'deleteFile'])
+                ->middleware('throttle:api');          // 删除文件
         });
     });
 });
