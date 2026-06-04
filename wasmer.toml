@@ -5,71 +5,24 @@ description = "Laravel Admin API System"
 
 [command]
 main = "public/index.php"
-runner = "wasmer/wasi-php:8.4"
+runner = "wasmer/wasi-php:8.3"
 
 [fs]
-# 映射项目目录到 WASM 文件系统根目录
 "/" = "."
 
 [env]
-# 应用配置
 APP_ENV = "production"
 APP_KEY = "base64:HxEwHiG8nyvP+tHL1ie9pDQn5cN0Trv7sozrKFVJI7c="
 APP_DEBUG = "false"
 APP_URL = "https://your-domain.wasmer.app"
 
-# 数据库配置 - 使用 SQLite
 DB_CONNECTION = "sqlite"
 DB_DATABASE = "/database/database.sqlite"
 
-# 会话和缓存配置（使用文件驱动）
 SESSION_DRIVER = "file"
-SESSION_LIFETIME = "120"
 CACHE_STORE = "file"
-FILESYSTEM_DISK = "local"
-
-# 队列配置（同步模式）
 QUEUE_CONNECTION = "sync"
-
-# CORS 配置
 FRONTEND_URL = "*"
-
-# 存储路径配置
-STORAGE_PATH = "/storage"
-CACHE_PATH = "/storage/framework/cache"
-SESSION_PATH = "/storage/framework/sessions"
 
 [network]
 allow = ["0.0.0.0:8000"]
-
-[build]
-# 复制必要文件到构建上下文
-copy = [
-    "app/",
-    "bootstrap/",
-    "config/",
-    "database/",
-    "public/",
-    "resources/",
-    "routes/",
-    "storage/",
-    "vendor/",
-    ".env.production",
-    "artisan",
-    "composer.json",
-    "composer.lock"
-]
-
-# 构建钩子 - 在构建前执行（主机环境）
-pre-build = [
-    "composer install --no-dev --optimize-autoloader",
-    "cp .env.production .env",
-    "php artisan migrate --force",
-    "php artisan config:cache",
-    "php artisan route:cache",
-    "php artisan view:cache",
-    "chmod -R 777 storage bootstrap/cache"
-]
-
-[dev]
-watch = ["app/", "routes/", "config/"]
