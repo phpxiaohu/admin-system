@@ -1,4 +1,4 @@
-# Laravel 纯后端 API 项目
+# Laravel 纯后端 SQLite 数据库 API 项目
 
 本项目是一个极简后端模板，仅提供 API 能力，不包含前端页面与前端构建链路。
 

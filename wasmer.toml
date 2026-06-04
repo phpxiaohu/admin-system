@@ -1,0 +1,54 @@
+[package]
+name = "laravel-admin-system"
+version = "1.0.0"
+description = "Laravel Admin API System"
+
+[command]
+main = "public/index.php"
+runner = "wasmer/wasi-php:8.4"
+
+[fs]
+# 映射项目目录到 WASM 文件系统
+"." = "."
+# 临时目录用于缓存等
+"/tmp" = { type = "tmp" }
+
+[env]
+# 应用配置
+APP_ENV = "production"
+APP_KEY = "base64:HxEwHiG8nyvP+tHL1ie9pDQn5cN0Trv7sozrKFVJI7c="
+APP_DEBUG = "false"
+APP_URL = "https://your-domain.wasmer.app"
+
+# 数据库配置 - 使用 SQLite
+DB_CONNECTION = "sqlite"
+DB_DATABASE = "/app/database/database.sqlite"
+
+# 会话和缓存配置（使用文件/数组驱动，避免外部依赖）
+SESSION_DRIVER = "file"
+SESSION_LIFETIME = "120"
+CACHE_STORE = "file"
+FILESYSTEM_DISK = "local"
+
+# 队列配置（同步模式）
+QUEUE_CONNECTION = "sync"
+
+# CORS 配置
+FRONTEND_URL = "*"
+
+[network]
+# 允许网络访问
+allow = ["0.0.0.0:8000"]
+
+[build]
+# 构建命令
+commands = [
+    "composer install --no-dev --optimize-autoloader",
+    "php artisan config:cache",
+    "php artisan route:cache",
+    "php artisan view:cache"
+]
+
+[dev]
+# 开发模式配置
+watch = ["app/", "routes/", "config/"]

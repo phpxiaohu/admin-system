@@ -15,7 +15,7 @@ return [
     |
     */
 
-    'default' => env('DB_CONNECTION', 'sqlite'),
+    'default' => env('DB_CONNECTION', 'mysql'),
 
     /*
     |--------------------------------------------------------------------------
@@ -57,7 +57,7 @@ return [
             'prefix_indexes' => true,
             'strict' => true,
             'engine' => null,
-            // 连接超时配置（针对 Vercel + PlanetScale 优化）
+            // 连接超时配置
             'timeout' => 5,
             'options' => extension_loaded('pdo_mysql') ? array_filter([
                 (PHP_VERSION_ID >= 80500 ? Mysql::ATTR_SSL_CA : PDO::MYSQL_ATTR_SSL_CA) => env('MYSQL_ATTR_SSL_CA', '/etc/ssl/cert.pem'),
