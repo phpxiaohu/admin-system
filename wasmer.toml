@@ -8,7 +8,8 @@ main = "public/index.php"
 runner = "wasmer/wasi-php:8.3"
 
 [build]
-dockerfile = "Dockerfile"
+builder = "docker"  # 强制使用 Docker 构建，禁用 Shipit
+dockerfile = "Dockerfile" # 指定你的 Dockerfile
 
 [fs]
 "/app" = "."
