@@ -1,0 +1,5 @@
+{
+    "framework": "laravel",
+    "use_composer": true,
+    "package_manager": null
+}
