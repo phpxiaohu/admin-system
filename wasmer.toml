@@ -8,10 +8,8 @@ main = "public/index.php"
 runner = "wasmer/wasi-php:8.4"
 
 [fs]
-# 映射项目目录到 WASM 文件系统
-"." = "."
-# 临时目录用于缓存等
-"/tmp" = { type = "tmp" }
+# 映射项目目录到 WASM 文件系统根目录
+"/" = "."
 
 [env]
 # 应用配置
@@ -22,9 +20,9 @@ APP_URL = "https://your-domain.wasmer.app"
 
 # 数据库配置 - 使用 SQLite
 DB_CONNECTION = "sqlite"
-DB_DATABASE = "/app/database/database.sqlite"
+DB_DATABASE = "/database/database.sqlite"
 
-# 会话和缓存配置（使用文件/数组驱动，避免外部依赖）
+# 会话和缓存配置（使用文件驱动）
 SESSION_DRIVER = "file"
 SESSION_LIFETIME = "120"
 CACHE_STORE = "file"
@@ -36,19 +34,42 @@ QUEUE_CONNECTION = "sync"
 # CORS 配置
 FRONTEND_URL = "*"
 
+# 存储路径配置
+STORAGE_PATH = "/storage"
+CACHE_PATH = "/storage/framework/cache"
+SESSION_PATH = "/storage/framework/sessions"
+
 [network]
-# 允许网络访问
 allow = ["0.0.0.0:8000"]
 
 [build]
-# 构建命令
-commands = [
+# 复制必要文件到构建上下文
+copy = [
+    "app/",
+    "bootstrap/",
+    "config/",
+    "database/",
+    "public/",
+    "resources/",
+    "routes/",
+    "storage/",
+    "vendor/",
+    ".env.production",
+    "artisan",
+    "composer.json",
+    "composer.lock"
+]
+
+# 构建钩子 - 在构建前执行（主机环境）
+pre-build = [
     "composer install --no-dev --optimize-autoloader",
+    "cp .env.production .env",
+    "php artisan migrate --force",
     "php artisan config:cache",
     "php artisan route:cache",
-    "php artisan view:cache"
+    "php artisan view:cache",
+    "chmod -R 777 storage bootstrap/cache"
 ]
 
 [dev]
-# 开发模式配置
 watch = ["app/", "routes/", "config/"]
