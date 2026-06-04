@@ -7,8 +7,14 @@ description = "Laravel Admin API System"
 main = "public/index.php"
 runner = "wasmer/wasi-php:8.3"
 
+[build]
+dockerfile = "Dockerfile"
+
 [fs]
-"/" = "."
+"/app" = "."
+
+[commands]
+start = { module = "php/php:php", runner = "wasi", args = ["artisan", "serve", "--host=0.0.0.0", "--port=8080"] }
 
 [env]
 APP_ENV = "production"
